@@ -241,13 +241,13 @@ namespace L2PAPIClient.api
 			return answer;
 		}
 
-        public async static Task<L2PAddResponse> L2PAddAnnouncement(string cid, L2PAddAnnouncementRequest data)
+        public async static Task<L2PAddUpdateResponse> L2PAddAnnouncement(string cid, L2PAddAnnouncementRequest data)
         {
             await AuthenticationManager.CheckAccessTokenAsync();
             string callURL = Config.L2PEndPoint+"/addAnnouncement?accessToken="+Config.getAccessToken()+"&cid="+cid;
 
             //string postData = JsonConvert.SerializeObject(data);
-            var answer = await RestCallAsync<L2PAddResponse>(data.ToString(), callURL, true);
+            var answer = await RestCallAsync<L2PAddUpdateResponse>(data.ToString(), callURL, true);
             return answer;
         }
 

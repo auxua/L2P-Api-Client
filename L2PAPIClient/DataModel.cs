@@ -110,14 +110,60 @@ namespace L2PAPIClient.DataModel
     /// <summary>
     /// The Response for adding Add-Calls
     /// </summary>
-    public class L2PAddResponse : L2PBaseData
+    public class L2PAddUpdateResponse : L2PGenericRequestResponse
     {
         public int itemId;
         public string itemUrl;
-        long modifiedTimestamp;
-        long creationTimestamp;
-        string attachmentFolderPath;
+        public long modifiedTimestamp;
+        public long creationTimestamp;
+        public string attachmentFolderPath;
     }
+
+    #endregion
+
+
+    #region Responses for Requests (not view-Calls)
+
+    /// <summary>
+    /// The response for Generic Calls
+    /// </summary>
+    public class L2PGenericRequestResponse : L2PBaseData
+    {
+        public string comment;
+    }
+
+    public class L2PCreateFolderResponse : L2PGenericRequestResponse
+    {
+        public string sourceDirectory;
+        public int itemId;
+        public long modifiedTimestamp;
+        public string name;
+        public string selfUrl;
+    }
+
+    public class L2PSolutionDocument
+    {
+        public string downloadUrl;
+        public int itemId;
+        public string fileSize;
+        public long modifiedTimestamp;
+        public string fileName;
+    }
+
+    public class L2PProvideAssignmentSolutionResponse : L2PGenericRequestResponse
+    {
+        public long creationTimestamp;
+        public long modifiedTimestamp;
+        public string studentComment;
+        public List<L2PSolutionDocument> solutionDocuments;
+        public string solutionDirectory;
+        public List<String> submittedByStudents;
+        public int itemId;
+    }
+
+
+
+
 
     #endregion
 
@@ -127,6 +173,7 @@ namespace L2PAPIClient.DataModel
     {
         public override string ToString()
         {
+            // If you do not want to use Newtonsoft, create JSON object in a different way
             return Newtonsoft.Json.JsonConvert.SerializeObject(this);
         }
     }
