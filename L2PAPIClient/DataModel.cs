@@ -80,7 +80,7 @@ namespace L2PAPIClient.DataModel
         public string courseTitle { get; set; }
         public string description { get; set; }
         public string url { get; set; }
-        public bool status { get; set; }
+        //public bool status { get; set; }
         public string courseStatus { get; set; }
         public int itemId { get; set; }
     }
@@ -107,6 +107,208 @@ namespace L2PAPIClient.DataModel
         public string role { get; set; }
     }
 
+    public class L2PWikiElement
+    {
+        public int itemId;
+        public string url;
+        public string authors;
+        public List<int> versionIds;
+        public long lastModified;
+        public string title;
+        public string body;
+    }
+
+    public class L2PWikiList : L2PBaseData
+    {
+        public List<L2PWikiElement> dataSet;
+    }
+
+    public class L2PgwsRequest
+    {
+        public int itemId;
+        public string groupName;
+        public string comment;
+    }
+
+    public class L2PgwsElement
+    {
+        public string systemGeneratedAlias;
+        public int groupId;
+        public List<String> members;
+        public int memberCount;
+        public string workspaceUrl;
+        public string description;
+        public string name;
+    }
+
+    public class L2PgwsMyGroupWorkspace : L2PBaseData
+    {
+        public List<L2PgwsRequest> invitationFromOtherUsers;
+        public List<L2PgwsRequest> requestFromOtherUsers;
+        public List<L2PgwsRequest> requestToOtherGroups;
+        public List<L2PgwsElement> dataSet;
+    }
+
+    public class L2PMediaLibraryElement
+    {
+        public string sourceDirectory;
+        public string thumbnailUrl;
+        public string name;
+        public int itemId;
+        public int parentFolderId;
+        public bool isDirectory;
+        public string selfUrl;
+        public object fileInformation;
+    }
+
+    public class L2PMediaLibraryList : L2PBaseData
+    {
+        public List<L2PMediaLibraryElement> dataSet;
+    }
+
+    public class L2PLearningMaterialElement
+    {
+        public string sourceDirectory;
+        public int itemId;
+        public string name;
+        public int parentFolderId;
+        public bool isDirectory;
+        public string selfUrl;
+        public object fileInformation;
+    }
+
+    public class L2PLearningMaterialList : L2PBaseData
+    {
+        public List<L2PLearningMaterialElement> dataSet;
+    }
+
+    public class L2PHyperlinkElement
+    {
+        public int itemId;
+        public string url;
+        public string notes;
+        public string description;
+    }
+
+    public class L2PHyperlinkList : L2PBaseData
+    {
+        public List<L2PHyperlinkElement> dataSet;
+    }
+
+    public class L2PAttachmentElement
+    {
+        public string downloadUrl;
+        public int itemId;
+        public string fileSize;
+        public long modifiedTimestamp;
+        public string fileName;
+    }
+
+    public class L2PEmailElement
+    {
+        public string from;
+        public int itemId;
+        public long modifiedTimestamp;
+        public List<L2PAttachmentElement> attachments;
+        public string recipients;
+        public string cc;
+        public string body;
+        public string subject;
+        public string replyTo;
+    }
+
+    public class L2PEmailList : L2PBaseData
+    {
+        public List<L2PEmailElement> dataSet;
+    }
+
+    public class L2PDiscussionItemElement
+    {
+        public string from;
+        public bool byMe;
+        public long modifiedTimestamp;
+        public int selfId;
+        public int replyToId;
+        public int parentDiscussionId;
+        public string subject;
+        public string body;
+    }
+
+    public class L2PDiscussionItemList : L2PBaseData
+    {
+        public List<L2PDiscussionItemElement> dataSet;
+    }
+
+    public class L2PCourseEvent
+    {
+        public string createdBy;
+        public string modifiedBy;
+        public string courseID;
+        public int itemID;
+        // Yes, it is a typo in the API
+        public bool isRucurringItem;
+        public string title;
+        public string contentType;
+        public string location;
+        public long eventDate;
+        public long endDate;
+        public bool allDay;
+        public string description;
+        public string category;
+    }
+
+    public class L2PCourseEventList : L2PBaseData
+    {
+        public List<L2PCourseEvent> dataSet;
+    }
+
+    public class L2PAvailableGroups : L2PBaseData
+    {
+        public List<L2PgwsElement> dataSet;
+    }
+
+    public class L2PAssignmentElement
+    {
+        public int itemId;
+        public string title;
+        public string description;
+        public double totalPoint;
+        public long dueDate;
+        public long assignmentPublishDate;
+        public bool groupSubmissionAllowed;
+        public List<L2PAttachmentElement> assignmentDocuments;
+        public object correction;
+        public object solution;
+        public List<L2PAttachmentElement> SampleSolutionDocuments;
+    }
+
+    public class L2PAssignmentList : L2PBaseData
+    {
+        public List<L2PAssignmentElement> dataSet;
+    }
+
+    public class L2PAnnouncementElement
+    {
+        public List<L2PAttachmentElement> attachments;
+        public long modifiedTimestamp;
+        public int itemId;
+        public string attachmentDirectory;
+        public string title;
+        public string body;
+        public long expireTime;
+    }
+
+    public class L2PAnnouncementList : L2PBaseData
+    {
+        public List<L2PAnnouncementElement> dataSet;
+    }
+
+
+    #endregion
+
+
+    #region Responses for Requests (not view-Calls)
+
     /// <summary>
     /// The Response for adding Add-Calls
     /// </summary>
@@ -119,10 +321,7 @@ namespace L2PAPIClient.DataModel
         public string attachmentFolderPath;
     }
 
-    #endregion
-
-
-    #region Responses for Requests (not view-Calls)
+    
 
     /// <summary>
     /// The response for Generic Calls
@@ -239,6 +438,13 @@ namespace L2PAPIClient.DataModel
     {
         public string title;
         public string body;
+    }
+
+    public class L2PUploadRequest : L2PBaseRequestData
+    {
+        public string fileName;
+        // A base64 encoded stream
+        public string stream;
     }
 
     #endregion
