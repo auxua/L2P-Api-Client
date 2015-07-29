@@ -149,7 +149,13 @@ namespace L2PAPIClient.api
 
 		#endregion
 
-		#region L2P API
+        /**
+         * 
+         * For Desciption of the API-Calls refer to the API Documentation
+         * 
+         * *****/
+        
+        #region L2P Misc. API Calls
 
 		/// <summary>
 		/// Calls the Ping-API of the L2P
@@ -165,7 +171,22 @@ namespace L2PAPIClient.api
 			return answer.comment;
 		}
 
-		/// <summary>
+        public async static Task<L2PProvideAssignmentSolutionResponse> L2PprovideAssignmentSolution(string cid, int assignmentid, string gws_name_alias, L2PAssignmentSolutionRequest data)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/provideAssignmentSolution?accessToken=" + Config.getAccessToken() + "&cid=" + cid
+                + "&assignmentid=" + assignmentid + "&gws_name_alias=" + gws_name_alias;
+
+            //string postData = JsonConvert.SerializeObject(data);
+            var answer = await RestCallAsync<L2PProvideAssignmentSolutionResponse>(data.ToString(), callURL, true);
+            return answer;
+        }
+
+        #endregion
+
+        #region L2P View Calls
+
+        /// <summary>
 		/// Workaround:
 		/// Check the Token for being valid by calling the L2P Api (Only in case of errors of the tokeninfo-endpoint)
 		/// </summary>
@@ -184,7 +205,7 @@ namespace L2PAPIClient.api
 		/// </summary>
 		/// <param name="cid">The course room id (14ss-xxxxx)</param>
 		/// <returns>A representation of the course room or null, if no data was available</returns>
-		public async static Task<L2PCourseInfoData> L2PViewCourseInfoAsync(string cid)
+		public async static Task<L2PCourseInfoData> L2PviewCourseInfoAsync(string cid)
 		{
 			await AuthenticationManager.CheckAccessTokenAsync();
 			string callURL = Config.L2PEndPoint + "/viewCourseInfo?accessToken=" + Config.getAccessToken() + "&cid=" + cid;
@@ -203,7 +224,7 @@ namespace L2PAPIClient.api
 		/// Get all Courses of the user
 		/// </summary>
 		/// <returns>A representation of all courses</returns>
-		public async static Task<L2PCourseInfoSetData> L2PViewAllCourseInfoAsync()
+		public async static Task<L2PCourseInfoSetData> L2PviewAllCourseInfoAsync()
 		{
             await AuthenticationManager.CheckAccessTokenAsync();
 			string callURL = Config.L2PEndPoint + "/viewAllCourseInfo?accessToken=" + Config.getAccessToken();
@@ -217,7 +238,7 @@ namespace L2PAPIClient.api
 		/// </summary>
 		/// <param name="semester">the semester specifier (e.g. 14ss)</param>
 		/// <returns>A representation of all courses of the semester</returns>
-		public async static Task<L2PCourseInfoSetData> L2PViewAllCourseIfoBySemesterAsync(string semester)
+		public async static Task<L2PCourseInfoSetData> L2PviewAllCourseIfoBySemesterAsync(string semester)
 		{
             await AuthenticationManager.CheckAccessTokenAsync();
 			string callURL = Config.L2PEndPoint + "/viewAllCourseInfoBySemester?accessToken=" + Config.getAccessToken()+"&semester="+semester;
@@ -232,7 +253,7 @@ namespace L2PAPIClient.api
 		/// </summary>
 		/// <param name="cid">the course room</param>
 		/// <returns>A Role representation</returns>
-		public async static Task<L2PRole> L2PViewUserRoleAsync(string cid)
+		public async static Task<L2PRole> L2PviewUserRoleAsync(string cid)
 		{
             await AuthenticationManager.CheckAccessTokenAsync();
 			string callURL = Config.L2PEndPoint + "/viewUserRole?accessToken=" + Config.getAccessToken() + "&cid=" + cid;
@@ -240,6 +261,210 @@ namespace L2PAPIClient.api
 			var answer = await RestCallAsync<L2PRole>("", callURL, false);
 			return answer;
 		}
+
+        public async static Task<L2PAssignmentList> L2PviewAllAssignments(string cid)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/viewAllAssignments?accessToken=" + Config.getAccessToken() + "&cid=" + cid;
+
+            var answer = await RestCallAsync<L2PAssignmentList>("", callURL, false);
+            return answer;
+        }
+
+        public async static Task<L2PAnnouncementList> L2PviewAllAnnouncements(string cid)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/viewAllAnnouncements?accessToken=" + Config.getAccessToken() + "&cid=" + cid;
+
+            var answer = await RestCallAsync<L2PAnnouncementList>("", callURL, false);
+            return answer;
+        }
+
+        public async static Task<L2PCourseEventList> L2PviewAllCourseEvents()
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/viewAllCourseEvents?accessToken=" + Config.getAccessToken();
+
+            var answer = await RestCallAsync<L2PCourseEventList>("", callURL, false);
+            return answer;
+        }
+
+        public async static Task<L2PCourseInfoSetData> L2PviewAllCourseInfoByCurrentSemester()
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/viewAllCourseinfoByCurrentSemester?accessToken=" + Config.getAccessToken();
+
+            var answer = await RestCallAsync<L2PCourseInfoSetData>("", callURL, false);
+            return answer;
+        }
+
+        public async static Task<L2PDiscussionItemList> L2PviewAllDiscussionItems(string cid)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/viewAllDiscussionItems?accessToken=" + Config.getAccessToken() + "&cid=" + cid;
+
+            var answer = await RestCallAsync<L2PDiscussionItemList>("", callURL, false);
+            return answer;
+        }
+
+        public async static Task<L2PDiscussionItemList> L2PviewAllDiscussionRootItems(string cid)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/viewAllDiscussionRootItems?accessToken=" + Config.getAccessToken() + "&cid=" + cid;
+
+            var answer = await RestCallAsync<L2PDiscussionItemList>("", callURL, false);
+            return answer;
+        }
+
+        public async static Task<L2PEmailList> L2PviewAllEmails(string cid)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/viewAllEmails?accessToken=" + Config.getAccessToken() + "&cid=" + cid;
+
+            var answer = await RestCallAsync<L2PEmailList>("", callURL, false);
+            return answer;
+        }
+
+        public async static Task<L2PHyperlinkList> L2PviewAllHyperlinks(string cid)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/viewAllHyperlinks?accessToken=" + Config.getAccessToken() + "&cid=" + cid;
+
+            var answer = await RestCallAsync<L2PHyperlinkList>("", callURL, false);
+            return answer;
+        }
+
+        public async static Task<L2PLearningMaterialList> L2PviewAllLearningMaterials(string cid)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/viewAllLearningMaterials?accessToken=" + Config.getAccessToken() + "&cid=" + cid;
+
+            var answer = await RestCallAsync<L2PLearningMaterialList>("", callURL, false);
+            return answer;
+        }
+
+        public async static Task<L2PMediaLibraryList> L2PviewAllMediaLibraries(string cid)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/viewAllMediaLibraries?accessToken=" + Config.getAccessToken() + "&cid=" + cid;
+
+            var answer = await RestCallAsync<L2PMediaLibraryList>("", callURL, false);
+            return answer;
+        }
+
+        public async static Task<L2PLearningMaterialList> L2PviewAllSharedDocuments(string cid)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/viewAllSharedDocuments?accessToken=" + Config.getAccessToken() + "&cid=" + cid;
+
+            var answer = await RestCallAsync<L2PLearningMaterialList>("", callURL, false);
+            return answer;
+        }
+
+        public async static Task<L2PWikiList> L2PviewAllWikis(string cid)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/viewAllWikis?accessToken=" + Config.getAccessToken() + "&cid=" + cid;
+
+            var answer = await RestCallAsync<L2PWikiList>("", callURL, false);
+            return answer;
+        }
+
+        public async static Task<L2PAnnouncementList> L2PviewAnnouncement(string cid, int itemid)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/viewAnnouncement?accessToken=" + Config.getAccessToken() + "&cid=" + cid + "&itemid=" + itemid;
+
+            var answer = await RestCallAsync<L2PAnnouncementList>("", callURL, false);
+            return answer;
+        }
+
+        public async static Task<L2PAssignmentList> L2PviewAssignment(string cid, int itemid)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/viewAssignment?accessToken=" + Config.getAccessToken() + "&cid=" + cid + "&itemid=" + itemid;
+
+            var answer = await RestCallAsync<L2PAssignmentList>("", callURL, false);
+            return answer;
+        }
+
+        public async static Task<L2PCourseEventList> L2PviewCourseEvents(string cid)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/viewCourseEvents?accessToken=" + Config.getAccessToken() + "&cid=" + cid;
+
+            var answer = await RestCallAsync<L2PCourseEventList>("", callURL, false);
+            return answer;
+        }
+
+        public async static Task<L2PDiscussionItemList> L2PviewDiscussionItem(string cid, int itemid)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/viewDiscussionItem?accessToken=" + Config.getAccessToken() + "&cid=" + cid + "&itemid=" + itemid;
+
+            var answer = await RestCallAsync<L2PDiscussionItemList>("", callURL, false);
+            return answer;
+        }
+
+        public async static Task<L2PEmailList> L2PviewEmail(string cid, int itemid)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/viewEmail?accessToken=" + Config.getAccessToken() + "&cid=" + cid + "&itemid=" + itemid;
+
+            var answer = await RestCallAsync<L2PEmailList>("", callURL, false);
+            return answer;
+        }
+
+        public async static Task<L2PHyperlinkList> L2PviewHyperlink(string cid, int itemid)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/viewHyperlink?accessToken=" + Config.getAccessToken() + "&cid=" + cid + "&itemid=" + itemid;
+
+            var answer = await RestCallAsync<L2PHyperlinkList>("", callURL, false);
+            return answer;
+        }
+
+        public async static Task<L2PLearningMaterialList> L2PviewLearningMaterial(string cid, int itemid)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/viewLearningMaterial?accessToken=" + Config.getAccessToken() + "&cid=" + cid + "&itemid=" + itemid;
+
+            var answer = await RestCallAsync<L2PLearningMaterialList>("", callURL, false);
+            return answer;
+        }
+
+        public async static Task<L2PMediaLibraryList> L2PviewMediaLibrary(string cid, int itemid)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/viewMediaLibrary?accessToken=" + Config.getAccessToken() + "&cid=" + cid + "&itemid=" + itemid;
+
+            var answer = await RestCallAsync<L2PMediaLibraryList>("", callURL, false);
+            return answer;
+        }
+
+        public async static Task<L2PWikiList> L2PviewWiki(string cid, int itemid)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/viewWiki?accessToken=" + Config.getAccessToken() + "&cid=" + cid + "&itemid=" + itemid;
+
+            var answer = await RestCallAsync<L2PWikiList>("", callURL, false);
+            return answer;
+        }
+
+
+        public async static Task<L2PWikiList> L2PviewWikiVersion(string cid, int itemid, int versionid)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/viewWikiVersion?accessToken=" + Config.getAccessToken() + "&cid=" + cid 
+                + "&itemid=" + itemid + "&versionid=" + versionid;
+
+            var answer = await RestCallAsync<L2PWikiList>("", callURL, false);
+            return answer;
+        }
+
+        #endregion
+
+        #region L2P Add Calls
 
         public async static Task<L2PAddUpdateResponse> L2PAddAnnouncement(string cid, L2PAddAnnouncementRequest data)
         {
@@ -251,6 +476,407 @@ namespace L2PAPIClient.api
             return answer;
         }
 
+        public async static Task<L2PAddUpdateResponse> L2PAddAssignment(string cid, L2PAddAssignmentRequest data)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/addAssignment?accessToken=" + Config.getAccessToken() + "&cid=" + cid;
+
+            //string postData = JsonConvert.SerializeObject(data);
+            var answer = await RestCallAsync<L2PAddUpdateResponse>(data.ToString(), callURL, true);
+            return answer;
+        }
+
+        public async static Task<L2PAddUpdateResponse> L2PAddCourseEvents(string cid, L2PAddCourseEventRequest data)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/addCourseEvents?accessToken=" + Config.getAccessToken() + "&cid=" + cid;
+
+            //string postData = JsonConvert.SerializeObject(data);
+            var answer = await RestCallAsync<L2PAddUpdateResponse>(data.ToString(), callURL, true);
+            return answer;
+        }
+
+        public async static Task<L2PAddUpdateResponse> L2PAddDiscussionThread(string cid, L2PAddDiscussionThreadRequest data)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/addDiscussionThread?accessToken=" + Config.getAccessToken() + "&cid=" + cid;
+
+            //string postData = JsonConvert.SerializeObject(data);
+            var answer = await RestCallAsync<L2PAddUpdateResponse>(data.ToString(), callURL, true);
+            return answer;
+        }
+
+        public async static Task<L2PAddUpdateResponse> L2PAddDiscussionThreadReply(string cid, int replyToId, L2PAddDiscussionThreadReplyRequest data)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/addDiscussionThreadReply?accessToken=" + Config.getAccessToken() + "&cid=" + cid+"&replyToId="+replyToId;
+
+            //string postData = JsonConvert.SerializeObject(data);
+            var answer = await RestCallAsync<L2PAddUpdateResponse>(data.ToString(), callURL, true);
+            return answer;
+        }
+
+        public async static Task<L2PAddUpdateResponse> L2PAddEmail(string cid, L2PAddEmailRequest data)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/addEmail?accessToken=" + Config.getAccessToken() + "&cid=" + cid;
+
+            //string postData = JsonConvert.SerializeObject(data);
+            var answer = await RestCallAsync<L2PAddUpdateResponse>(data.ToString(), callURL, true);
+            return answer;
+        }
+
+        public async static Task<L2PAddUpdateResponse> L2PAddHyperlink(string cid, L2PAddHyperlinkRequest data)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/addHyperlink?accessToken=" + Config.getAccessToken() + "&cid=" + cid;
+
+            //string postData = JsonConvert.SerializeObject(data);
+            var answer = await RestCallAsync<L2PAddUpdateResponse>(data.ToString(), callURL, true);
+            return answer;
+        }
+
+        public async static Task<L2PAddUpdateResponse> L2PAddWiki(string cid, L2PAddWikiRequest data)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/addWiki?accessToken=" + Config.getAccessToken() + "&cid=" + cid;
+
+            //string postData = JsonConvert.SerializeObject(data);
+            var answer = await RestCallAsync<L2PAddUpdateResponse>(data.ToString(), callURL, true);
+            return answer;
+        }
+
+        public async static Task<L2PCreateFolderResponse> L2PCreateFolder(string cid, int moduleNumber, string desiredFolderName, string sourceDirectory)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/createFolder?accessToken=" + Config.getAccessToken() + "&cid=" + cid+"&moduleNumber="+moduleNumber.ToString()
+                +"&desiredFolderName="+desiredFolderName+"&sourceDirectory="+sourceDirectory;
+
+            //string postData = JsonConvert.SerializeObject(data);
+            var answer = await RestCallAsync<L2PCreateFolderResponse>(null, callURL, false);
+            return answer;
+        }
+
+        #endregion
+
+        #region L2P Update Calls
+
+        public async static Task<L2PAddUpdateResponse> L2PupdateAnnouncement(string cid, int itemid, L2PAddAnnouncementRequest data)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/updateAnnouncement?accessToken=" + Config.getAccessToken() + "&cid=" + cid + "&itemid=" + itemid;
+
+            //string postData = JsonConvert.SerializeObject(data);
+            var answer = await RestCallAsync<L2PAddUpdateResponse>(data.ToString(), callURL, true);
+            return answer;
+        }
+
+        public async static Task<L2PAddUpdateResponse> L2PupdateCourseEvents(string cid, int itemid, L2PAddCourseEventRequest data)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/updateCourseEvents?accessToken=" + Config.getAccessToken() + "&cid=" + cid + "&itemid=" + itemid;
+
+            //string postData = JsonConvert.SerializeObject(data);
+            var answer = await RestCallAsync<L2PAddUpdateResponse>(data.ToString(), callURL, true);
+            return answer;
+        }
+
+        public async static Task<L2PAddUpdateResponse> L2PupdateDiscussionThread(string cid, int selfid, L2PAddDiscussionThreadRequest data)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/updateDiscussionThread?accessToken=" + Config.getAccessToken() + "&cid=" + cid + "&selfid=" + selfid;
+
+            //string postData = JsonConvert.SerializeObject(data);
+            var answer = await RestCallAsync<L2PAddUpdateResponse>(data.ToString(), callURL, true);
+            return answer;
+        }
+
+        public async static Task<L2PAddUpdateResponse> L2PupdateDiscussionThreadReply(string cid, int selfid, L2PAddDiscussionThreadReplyRequest data)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/updateDiscussionThreadReply?accessToken=" + Config.getAccessToken() + "&cid=" + cid + "&selfid=" + selfid;
+
+            //string postData = JsonConvert.SerializeObject(data);
+            var answer = await RestCallAsync<L2PAddUpdateResponse>(data.ToString(), callURL, true);
+            return answer;
+        }
+
+        public async static Task<L2PAddUpdateResponse> L2PupdateHyperlink(string cid, int itemid, L2PAddHyperlinkRequest data)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/updateHyperlink?accessToken=" + Config.getAccessToken() + "&cid=" + cid + "&itemid=" + itemid;
+
+            //string postData = JsonConvert.SerializeObject(data);
+            var answer = await RestCallAsync<L2PAddUpdateResponse>(data.ToString(), callURL, true);
+            return answer;
+        }
+
+        public async static Task<L2PAddUpdateResponse> L2PupdateWiki(string cid, int itemid, L2PAddWikiRequest data)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/updateWiki?accessToken=" + Config.getAccessToken() + "&cid=" + cid + "&itemid=" + itemid;
+
+            //string postData = JsonConvert.SerializeObject(data);
+            var answer = await RestCallAsync<L2PAddUpdateResponse>(data.ToString(), callURL, true);
+            return answer;
+        }
+
+        #endregion
+
+        #region L2P Deletion Calls
+
+        public async static Task<L2PBaseActionResponse> L2PDeleteAnnouncement(string cid, int itemid)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/deleteAnnouncement?accessToken=" + Config.getAccessToken() + "&cid=" + cid+"&itemid="+itemid;
+
+            //string postData = JsonConvert.SerializeObject(data);
+            var answer = await RestCallAsync<L2PBaseActionResponse>(null, callURL, false);
+            return answer;
+        }
+
+        public async static Task<L2PBaseActionResponse> L2PDeleteAssignment(string cid, int itemid)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/deleteAssignment?accessToken=" + Config.getAccessToken() + "&cid=" + cid + "&itemid=" + itemid;
+
+            //string postData = JsonConvert.SerializeObject(data);
+            var answer = await RestCallAsync<L2PBaseActionResponse>(null, callURL, false);
+            return answer;
+        }
+
+        public async static Task<L2PBaseActionResponse> L2PDeleteAssignmentSolution(string cid, int itemid)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/deleteAssignmentSolution?accessToken=" + Config.getAccessToken() + "&cid=" + cid + "&itemid=" + itemid;
+
+            //string postData = JsonConvert.SerializeObject(data);
+            var answer = await RestCallAsync<L2PBaseActionResponse>(null, callURL, false);
+            return answer;
+        }
+
+        public async static Task<L2PBaseActionResponse> L2PDeleteCourseEvent(string cid, int itemid)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/deleteCourseEvent?accessToken=" + Config.getAccessToken() + "&cid=" + cid + "&itemid=" + itemid;
+
+            //string postData = JsonConvert.SerializeObject(data);
+            var answer = await RestCallAsync<L2PBaseActionResponse>(null, callURL, false);
+            return answer;
+        }
+
+        public async static Task<L2PBaseActionResponse> L2PDeleteDiscussionItem(string cid, int itemid)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/deleteDiscussionItem?accessToken=" + Config.getAccessToken() + "&cid=" + cid + "&itemid=" + itemid;
+
+            //string postData = JsonConvert.SerializeObject(data);
+            var answer = await RestCallAsync<L2PBaseActionResponse>(null, callURL, false);
+            return answer;
+        }
+
+        public async static Task<L2PBaseActionResponse> L2PDeleteEmail(string cid, int itemid)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/deleteEmail?accessToken=" + Config.getAccessToken() + "&cid=" + cid + "&itemid=" + itemid;
+
+            //string postData = JsonConvert.SerializeObject(data);
+            var answer = await RestCallAsync<L2PBaseActionResponse>(null, callURL, false);
+            return answer;
+        }
+
+
+        public async static Task<L2PBaseActionResponse> L2PDeleteEmail(string cid, int itemid)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/deleteEmail?accessToken=" + Config.getAccessToken() + "&cid=" + cid + "&itemid=" + itemid;
+
+            //string postData = JsonConvert.SerializeObject(data);
+            var answer = await RestCallAsync<L2PBaseActionResponse>(null, callURL, false);
+            return answer;
+        }
+
+        public async static Task<L2PBaseActionResponse> L2PDeleteLearningMaterial(string cid, int itemid)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/deleteLearningMaterial?accessToken=" + Config.getAccessToken() + "&cid=" + cid + "&itemid=" + itemid;
+
+            //string postData = JsonConvert.SerializeObject(data);
+            var answer = await RestCallAsync<L2PBaseActionResponse>(null, callURL, false);
+            return answer;
+        }
+
+        public async static Task<L2PBaseActionResponse> L2PDeleteMediaLibrary(string cid, int itemid)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/deleteMediaLibrary?accessToken=" + Config.getAccessToken() + "&cid=" + cid + "&itemid=" + itemid;
+
+            //string postData = JsonConvert.SerializeObject(data);
+            var answer = await RestCallAsync<L2PBaseActionResponse>(null, callURL, false);
+            return answer;
+        }
+
+        public async static Task<L2PBaseActionResponse> L2PDeleteSharedDocument(string cid, int itemid)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/deleteSharedDocument?accessToken=" + Config.getAccessToken() + "&cid=" + cid + "&itemid=" + itemid;
+
+            //string postData = JsonConvert.SerializeObject(data);
+            var answer = await RestCallAsync<L2PBaseActionResponse>(null, callURL, false);
+            return answer;
+        }
+
+
+        public async static Task<L2PBaseActionResponse> L2PDeleteWiki(string cid, int itemid)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/deleteWiki?accessToken=" + Config.getAccessToken() + "&cid=" + cid + "&itemid=" + itemid;
+
+            //string postData = JsonConvert.SerializeObject(data);
+            var answer = await RestCallAsync<L2PBaseActionResponse>(null, callURL, false);
+            return answer;
+        }
+
+        #endregion
+
+        #region L2P File Operations
+
+        public async static Task<String> L2PdownloadFile(string cid, string downloadUrl, string filename)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/downloadFile/"+filename+"?accessToken=" + Config.getAccessToken() + "&cid=" + cid + "&downloadUrl=" + downloadUrl;
+
+            //string postData = JsonConvert.SerializeObject(data);
+            var answer = await RestCallAsync<String>(null, callURL, false);
+            return answer;
+        }
+
+        public async static Task<L2PBaseActionResponse> L2PuploadInAnnouncements(string cid, string attachmentDirectory, L2PUploadRequest data)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/uploadInAnnouncement?accessToken=" + Config.getAccessToken() + "&cid=" + cid + "&attachmentDirectory=" + attachmentDirectory;
+
+            //string postData = JsonConvert.SerializeObject(data);
+            var answer = await RestCallAsync<L2PBaseActionResponse>(data.ToString(), callURL, true);
+            return answer;
+        }
+
+        public async static Task<L2PBaseActionResponse> L2PuploadInAssignments(string cid, string solutionDirectory, L2PUploadRequest data)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/uploadInAssignments?accessToken=" + Config.getAccessToken() + "&cid=" + cid + "&solutionDirectory=" + solutionDirectory;
+
+            //string postData = JsonConvert.SerializeObject(data);
+            var answer = await RestCallAsync<L2PBaseActionResponse>(data.ToString(), callURL, true);
+            return answer;
+        }
+
+        public async static Task<L2PBaseActionResponse> L2PuploadInEmail(string cid, L2PUploadRequest data)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/uploadInEmail?accessToken=" + Config.getAccessToken() + "&cid=" + cid;
+
+            //string postData = JsonConvert.SerializeObject(data);
+            var answer = await RestCallAsync<L2PBaseActionResponse>(data.ToString(), callURL, true);
+            return answer;
+        }
+
+        public async static Task<L2PBaseActionResponse> L2PuploadInLearningMaterials(string cid, string sourceDirectory, L2PUploadRequest data)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/uploadInLearningMaterials?accessToken=" + Config.getAccessToken() + "&cid=" + cid + "&sourceDirectory=" + sourceDirectory;
+
+            //string postData = JsonConvert.SerializeObject(data);
+            var answer = await RestCallAsync<L2PBaseActionResponse>(data.ToString(), callURL, true);
+            return answer;
+        }
+
+        public async static Task<L2PBaseActionResponse> L2PuploadInMediaLibrary(string cid, string sourceDirectory, L2PUploadRequest data)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/uploadInMediaLibrary?accessToken=" + Config.getAccessToken() + "&cid=" + cid + "&sourceDirectory=" + sourceDirectory;
+
+            //string postData = JsonConvert.SerializeObject(data);
+            var answer = await RestCallAsync<L2PBaseActionResponse>(data.ToString(), callURL, true);
+            return answer;
+        }
+
+        public async static Task<L2PBaseActionResponse> L2PuploadInSharedDocuments(string cid, string sourceDirectory, L2PUploadRequest data)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/uploadInSharedDocuments?accessToken=" + Config.getAccessToken() + "&cid=" + cid + "&sourceDirectory=" + sourceDirectory;
+
+            //string postData = JsonConvert.SerializeObject(data);
+            var answer = await RestCallAsync<L2PBaseActionResponse>(data.ToString(), callURL, true);
+            return answer;
+        }
+
 		#endregion
-	}
+
+        #region L2P Group Workspace Management
+
+        public async static Task<L2PBaseActionResponse> L2PgwsInviteMemberInGroup(string cid, L2PgwsInvite data)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/gwsInviteMemberInGroup?accessToken=" + Config.getAccessToken() + "&cid=" + cid;
+
+            //string postData = JsonConvert.SerializeObject(data);
+            var answer = await RestCallAsync<L2PBaseActionResponse>(data.ToString(), callURL, true);
+            return answer;
+        }
+
+        public async static Task<L2PBaseActionResponse> L2PgwsLeaveGroup(string cid, int groupid)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/gwsLeaveGroup?accessToken=" + Config.getAccessToken() + "&cid=" + cid + "&groupId=" + groupid;
+
+            //string postData = JsonConvert.SerializeObject(data);
+            var answer = await RestCallAsync<L2PBaseActionResponse>(null, callURL, false);
+            return answer;
+        }
+
+        public async static Task<L2PBaseActionResponse> L2PgwsRespondToInvitation(string cid, int itemId, string action)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/gwsRespondToInvitation?accessToken=" + Config.getAccessToken() + "&cid=" + cid 
+                + "&itemId=" + itemId + "&action=" + action;
+
+            //string postData = JsonConvert.SerializeObject(data);
+            var answer = await RestCallAsync<L2PBaseActionResponse>(null, callURL, false);
+            return answer;
+        }
+
+        public async static Task<L2PBaseActionResponse> L2PgwsRespondToRequest(string cid, int itemId, string action)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/gwsRespondToRequest?accessToken=" + Config.getAccessToken() + "&cid=" + cid
+                + "&itemId=" + itemId + "&action=" + action;
+
+            //string postData = JsonConvert.SerializeObject(data);
+            var answer = await RestCallAsync<L2PBaseActionResponse>(null, callURL, false);
+            return answer;
+        }
+
+        public async static Task<L2PAvailableGroups> L2PviewAvailableGroupsInGroupWorkspace(string cid)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/viewAvailableGroupsInGroupWorkspace?accessToken=" + Config.getAccessToken() + "&cid=" + cid;
+
+            var answer = await RestCallAsync<L2PAvailableGroups>("", callURL, false);
+            return answer;
+        }
+
+        public async static Task<L2PgwsMyGroupWorkspace> L2PviewMyGroupWorkspace(string cid)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/viewMyGroupWorkspace?accessToken=" + Config.getAccessToken() + "&cid=" + cid;
+
+            var answer = await RestCallAsync<L2PgwsMyGroupWorkspace>("", callURL, false);
+            return answer;
+        }
+
+        #endregion
+
+
+    }
 }

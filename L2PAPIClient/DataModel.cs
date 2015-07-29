@@ -68,6 +68,11 @@ namespace L2PAPIClient.DataModel
         public bool status;
     }
 
+    public class L2PBaseActionResponse : L2PBaseData
+    {
+        public string comment;
+    }
+
     /// <summary>
     /// Representation of a Course Room in L2P
     /// 
@@ -147,6 +152,13 @@ namespace L2PAPIClient.DataModel
         public List<L2PgwsRequest> requestFromOtherUsers;
         public List<L2PgwsRequest> requestToOtherGroups;
         public List<L2PgwsElement> dataSet;
+    }
+
+    public class L2PgwsInvite : L2PBaseRequestData
+    {
+        public string emails;
+        public string systemGeneratedAlias;
+        public string comment;
     }
 
     public class L2PMediaLibraryElement
@@ -360,10 +372,6 @@ namespace L2PAPIClient.DataModel
         public int itemId;
     }
 
-
-
-
-
     #endregion
 
     #region L2P request DataTypes
@@ -375,6 +383,11 @@ namespace L2PAPIClient.DataModel
             // If you do not want to use Newtonsoft, create JSON object in a different way
             return Newtonsoft.Json.JsonConvert.SerializeObject(this);
         }
+    }
+
+    public class L2PAssignmentSolutionRequest : L2PBaseRequestData
+    {
+        public string comment;
     }
 
     public class L2PAddAnnouncementRequest : L2PBaseRequestData
