@@ -14,136 +14,58 @@ namespace L2PAPIClient.api
 {
 	public class Calls
 	{
-		#region generic calls
+        #region generic calls
 
-		/// <summary>
-		/// A generic REST-Call to an endpoint using GET or POST method
-		/// 
-		/// Uses a WebRequest for POST, a httpClient for GET calls
-		/// 
-		/// TODO: Better to throw exception/forward exception on error?
-		/// </summary>
-		/// <typeparam name="T1">The Datatype to await for response</typeparam>
-		/// <param name="input">the data as string (ignored, if using GET)</param>
-		/// <param name="endpoint">The REST-Endpoint to call</param>
-		/// <param name="post">A flag indicating whether to use POST or GET</param>
-		/// <returns>The datatype that has been awaited for the call or default(T1) on error</returns>
-		public async static Task<T1> RestCallAsync<T1>(string input, string endpoint, bool post)
+        public static async Task<string> GetAsync(string url)
+        {
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Accept.TryParseAdd("application/json");
+            string result = await client.GetStringAsync(url);
+            return result;
+        }
+
+
+        public static async Task<string> PostAsync(string url, string data)
+        {
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Accept.TryParseAdd("application/json");
+
+            StringContent content = new StringContent(data);
+
+            HttpResponseMessage response = await client.PostAsync(url, content);
+            string result = await response.Content.ReadAsStringAsync();
+            return result;
+
+        }
+
+        /// <summary>
+        /// A generic REST-Call to an endpoint using GET or POST method
+        /// 
+        /// Uses a WebRequest for POST, a httpClient for GET calls
+        /// 
+        /// throws an Exception in Case of Error
+        /// </summary>
+        /// <typeparam name="T1">The Datatype to await for response</typeparam>
+        /// <param name="input">the data as string (ignored, if using GET)</param>
+        /// <param name="endpoint">The REST-Endpoint to call</param>
+        /// <param name="post">A flag indicating whether to use POST or GET</param>
+        /// <returns>The datatype that has been awaited for the call or default(T1) on error</returns>
+        public async static Task<T1> RestCallAsync<T1>(string input, string endpoint, bool post)
 		{
-			try
+
+			if (post)
 			{
-				if (post)
-				{
-					var http = (HttpWebRequest)WebRequest.Create(new Uri(endpoint));
-					//http.Accept = "application/json";
-					http.ContentType = "application/json";
-					http.Method = "POST";
-
-					Byte[] bytes = Encoding.UTF8.GetBytes(input);
-
-					using (var stream = await Task.Factory.FromAsync<Stream>(http.BeginGetRequestStream,
-						http.EndGetRequestStream, null))
-					{
-						// Write the bytes to the stream
-						await stream.WriteAsync(bytes,0,bytes.Length);
-					}
-
-                    try
-                    {
-
-                        using (var response = await Task.Factory.FromAsync<WebResponse>(http.BeginGetResponse,
-                            http.EndGetResponse, null))
-                        {
-                            var stream = response.GetResponseStream();
-                            var sr = new StreamReader(stream);
-                            var content = sr.ReadToEnd();
-
-                            T1 answer = JsonConvert.DeserializeObject<T1>(content);
-                            //http.Abort();
-                            http = null;
-                            return answer;
-                        }
-                    }
-                    catch (WebException ex)
-                    {
-                        // WebException is raised when the status code is not OK - e.g. if you provided false arguments or having other errors
-                        var stream = ex.Response.GetResponseStream();
-                        var sr = new StreamReader(stream);
-                        var content = sr.ReadToEnd();
-
-                        T1 answer = JsonConvert.DeserializeObject<T1>(content);
-                        //http.Abort();
-                        http = null;
-                        return answer;
-                    }
-				}
-				else
-				{
-					// For GET, use a simple WebRequest
-
-					T1 res = default(T1);
-
-					try
-					{
-
-
-						var http = (HttpWebRequest)WebRequest.Create(new Uri(endpoint));
-						//http.Accept = "application/json";
-						//http.ContentType = "text/xml; encoding='utf-8'";
-						http.Method = "GET";
-
-						if (http.Headers == null)
-							http.Headers = new WebHeaderCollection();
-
-                        // May Depend on OS!
-
-						// Use for Android, iOS and Windows
-						http.IfModifiedSince = DateTime.UtcNow;
-
-                        // Use this for windows phone (silverlight)
-                        //http.Headers[HttpRequestHeader.IfModifiedSince] = DateTime.UtcNow.ToString("r");
-
-                        try
-                        {
-
-                            using (var response = await Task.Factory.FromAsync<WebResponse>(http.BeginGetResponse,
-                                http.EndGetResponse, null))
-                            {
-                                var stream = response.GetResponseStream();
-                                var sr = new StreamReader(stream);
-                                var content = sr.ReadToEnd();
-
-                                res = JsonConvert.DeserializeObject<T1>(content);
-                                //http.Abort();
-                                http = null;
-                                return res;
-                            }
-                        }
-                        catch (WebException ex)
-                        {
-                            // WebException is raised when the status code is not OK - e.g. if you provided false arguments or having other errors
-                            var stream = ex.Response.GetResponseStream();
-                            var sr = new StreamReader(stream);
-                            var content = sr.ReadToEnd();
-
-                            T1 answer = JsonConvert.DeserializeObject<T1>(content);
-                            //http.Abort();
-                            http = null;
-                            return answer;
-                        }
-
-					}
-					catch (Exception)
-					{
-                        return res;
-					}
-				}
+                var answerCall = await PostAsync(endpoint, input);
+                T1 answer = JsonConvert.DeserializeObject<T1>(answerCall);
+                return answer;
 			}
-			catch (Exception ex)
+			else
 			{
-                var t = ex.Message;
-				return default(T1);
+                var answerCall = await GetAsync(endpoint);
+                T1 answer = JsonConvert.DeserializeObject<T1>(answerCall);
+                return answer;
 			}
+			
 		}
 		
 
@@ -674,17 +596,6 @@ namespace L2PAPIClient.api
             var answer = await RestCallAsync<L2PBaseActionResponse>(null, callURL, false);
             return answer;
         }
-
-        public async static Task<L2PBaseActionResponse> L2PDeleteEmail(string cid, int itemid)
-        {
-            await AuthenticationManager.CheckAccessTokenAsync();
-            string callURL = Config.L2PEndPoint + "/deleteEmail?accessToken=" + Config.getAccessToken() + "&cid=" + cid + "&itemid=" + itemid;
-
-            //string postData = JsonConvert.SerializeObject(data);
-            var answer = await RestCallAsync<L2PBaseActionResponse>(null, callURL, false);
-            return answer;
-        }
-
 
         public async static Task<L2PBaseActionResponse> L2PDeleteEmail(string cid, int itemid)
         {
