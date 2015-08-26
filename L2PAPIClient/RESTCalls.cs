@@ -595,6 +595,16 @@ namespace L2PAPIClient.api
             return answer;
         }
 
+        public async static Task<L2PBaseActionResponse> L2PDeleteLiterature(string cid, int itemid)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/deleteLiterature?accessToken=" + Config.getAccessToken() + "&cid=" + cid + "&itemid=" + itemid;
+
+            //string postData = JsonConvert.SerializeObject(data);
+            var answer = await RestCallAsync<L2PBaseActionResponse>(null, callURL, false);
+            return answer;
+        }
+
         public async static Task<L2PBaseActionResponse> L2PDeleteAssignment(string cid, int itemid)
         {
             await AuthenticationManager.CheckAccessTokenAsync();
