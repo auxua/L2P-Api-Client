@@ -122,12 +122,30 @@ namespace L2PAPIClient.api
 			return true;
 		}
 
-		/// <summary>
-		/// Gets the Course Info for the provided Course
-		/// </summary>
-		/// <param name="cid">The course room id (14ss-xxxxx)</param>
-		/// <returns>A representation of the course room or null, if no data was available</returns>
-		public async static Task<L2PCourseInfoData> L2PviewCourseInfoAsync(string cid)
+        public async static Task<L2PLiteratureViewDataType> L2PviewLiteratureAsync(string cid, int itemid)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/viewLiterature?accessToken=" + Config.getAccessToken() + "&cid=" + cid + "&itemid="+itemid.ToString();
+
+            var answer = await RestCallAsync<L2PLiteratureViewDataType>("", callURL, false);
+            return answer;
+        }
+
+        public async static Task<L2PLiteratureSetDataType> L2PviewAllLiteratureAsync(string cid)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/viewLiterature?accessToken=" + Config.getAccessToken() + "&cid=" + cid;
+
+            var answer = await RestCallAsync<L2PLiteratureSetDataType>("", callURL, false);
+            return answer;
+        }
+
+        /// <summary>
+        /// Gets the Course Info for the provided Course
+        /// </summary>
+        /// <param name="cid">The course room id (14ss-xxxxx)</param>
+        /// <returns>A representation of the course room or null, if no data was available</returns>
+        public async static Task<L2PCourseInfoData> L2PviewCourseInfoAsync(string cid)
 		{
 			await AuthenticationManager.CheckAccessTokenAsync();
 			string callURL = Config.L2PEndPoint + "/viewCourseInfo?accessToken=" + Config.getAccessToken() + "&cid=" + cid;
@@ -388,10 +406,20 @@ namespace L2PAPIClient.api
 
         #region L2P Add Calls
 
+        public async static Task<L2PAddUpdateResponse> L2PAddLiterature(string cid, L2PLiteratureAddRequest data)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint+"/addLiterature?accessToken="+Config.getAccessToken()+"&cid="+cid;
+
+            //string postData = JsonConvert.SerializeObject(data);
+            var answer = await RestCallAsync<L2PAddUpdateResponse>(data.ToString(), callURL, true);
+            return answer;
+        }
+
         public async static Task<L2PAddUpdateResponse> L2PAddAnnouncement(string cid, L2PAddAnnouncementRequest data)
         {
             await AuthenticationManager.CheckAccessTokenAsync();
-            string callURL = Config.L2PEndPoint+"/addAnnouncement?accessToken="+Config.getAccessToken()+"&cid="+cid;
+            string callURL = Config.L2PEndPoint + "/addAnnouncement?accessToken=" + Config.getAccessToken() + "&cid=" + cid;
 
             //string postData = JsonConvert.SerializeObject(data);
             var answer = await RestCallAsync<L2PAddUpdateResponse>(data.ToString(), callURL, true);
@@ -487,6 +515,16 @@ namespace L2PAPIClient.api
         {
             await AuthenticationManager.CheckAccessTokenAsync();
             string callURL = Config.L2PEndPoint + "/updateAnnouncement?accessToken=" + Config.getAccessToken() + "&cid=" + cid + "&itemid=" + itemid;
+
+            //string postData = JsonConvert.SerializeObject(data);
+            var answer = await RestCallAsync<L2PAddUpdateResponse>(data.ToString(), callURL, true);
+            return answer;
+        }
+
+        public async static Task<L2PAddUpdateResponse> L2PupdateLiterature(string cid, int itemid, L2PLiteratureAddRequest data)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/updateLiterature?accessToken=" + Config.getAccessToken() + "&cid=" + cid + "&itemid=" + itemid;
 
             //string postData = JsonConvert.SerializeObject(data);
             var answer = await RestCallAsync<L2PAddUpdateResponse>(data.ToString(), callURL, true);

@@ -315,6 +315,48 @@ namespace L2PAPIClient.DataModel
         public List<L2PAnnouncementElement> dataSet;
     }
 
+    public class L2PLiteratureSetDataType : L2PBaseData
+    {
+        public List<L2PLiteratureViewDataType> dataSet;
+    }
+
+    public class L2PLiteratureViewDataType : L2PBaseData
+    {
+        public string state;
+        public string availability;
+        public int itemID;
+        public long modified;
+        public long created;
+        public string author;
+        public string editor;
+        public string literatureCategory;
+        //public List<FileInformationDataType> attachments;
+        public List<object> attachments;
+        public string title;
+        public string authors;
+        public string year;
+        public string url;
+        public string publisher;
+        public string relevance;
+        public string address;
+        public string booktitle;
+        public string comments;
+        public string doi;
+        public string edition;
+        public string fromPage;
+        public string isxn;
+        public string journalName;
+        public string number;
+        public string role;
+        public string series;
+        public string toPage;
+        public string type;
+        public string volume;
+        public string urlComment;
+        public string contentType;
+
+    }
+
 
     #endregion
 
@@ -458,6 +500,33 @@ namespace L2PAPIClient.DataModel
         public string fileName;
         // A base64 encoded stream
         public string stream;
+    }
+
+    public class L2PLiteratureAddRequest : L2PBaseRequestData
+    {
+        public string title;
+        public string authors;
+        public string year;
+        public string url;
+        public string publisher;
+        public string relevance;
+        public string address;
+        public string booktitle;
+        public string comments;
+        public string doi;
+        public string edition;
+        public string fromPage;
+        public string isxn;
+        public string journalName;
+        public string number;
+        public string role;
+        public string series;
+        public string toPage;
+        public string type;
+        public string volume;
+        public string urlComment;
+        public string contentType;
+
     }
 
     #endregion
