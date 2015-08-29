@@ -414,6 +414,11 @@ namespace L2PAPIClient.DataModel
         public int itemId;
     }
 
+    public class L2PRegisterResponse : L2PBaseData
+    {
+        public bool Status;
+    }
+
     #endregion
 
     #region L2P request DataTypes
@@ -527,6 +532,12 @@ namespace L2PAPIClient.DataModel
         public string urlComment;
         public string contentType;
 
+    }
+
+    public class L2PRegisterRequest : L2PBaseRequestData
+    {
+        public string groupName;
+        public string uid;
     }
 
     #endregion

@@ -836,6 +836,29 @@ namespace L2PAPIClient.api
 
         #endregion
 
+        #region L2P Participants Management
+
+        public async static Task<L2PRegisterResponse> L2PRegisterUser(string cid, L2PRegisterRequest data)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/registerParticipant?accessToken=" + Config.getAccessToken() + "&cid=" + cid;
+
+            //string postData = JsonConvert.SerializeObject(data);
+            var answer = await RestCallAsync<L2PRegisterResponse>(data.ToString(), callURL, true);
+            return answer;
+        }
+
+        public async static Task<L2PRegisterResponse> L2PDeregisterUser(string cid, L2PRegisterRequest data)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/deregisterParticipant?accessToken=" + Config.getAccessToken() + "&cid=" + cid;
+
+            //string postData = JsonConvert.SerializeObject(data);
+            var answer = await RestCallAsync<L2PRegisterResponse>(data.ToString(), callURL, true);
+            return answer;
+        }
+
+        #endregion
 
     }
 }
