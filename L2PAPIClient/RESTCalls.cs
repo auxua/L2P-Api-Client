@@ -730,10 +730,21 @@ namespace L2PAPIClient.api
             return answer;
         }
 
+        [Obsolete]
         public async static Task<L2PBaseActionResponse> L2PuploadInEmail(string cid, L2PUploadRequest data)
         {
             await AuthenticationManager.CheckAccessTokenAsync();
             string callURL = Config.L2PEndPoint + "/uploadInEmail?accessToken=" + Config.getAccessToken() + "&cid=" + cid;
+
+            //string postData = JsonConvert.SerializeObject(data);
+            var answer = await RestCallAsync<L2PBaseActionResponse>(data.ToString(), callURL, true);
+            return answer;
+        }
+
+        public async static Task<L2PBaseActionResponse> L2PuploadInEmailId(string cid, int id, L2PUploadRequest data)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/uploadInEmailId?accessToken=" + Config.getAccessToken() + "&cid=" + cid + "&emailItemId=" + id.ToString();
 
             //string postData = JsonConvert.SerializeObject(data);
             var answer = await RestCallAsync<L2PBaseActionResponse>(data.ToString(), callURL, true);

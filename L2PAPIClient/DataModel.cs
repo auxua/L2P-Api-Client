@@ -484,6 +484,7 @@ namespace L2PAPIClient.DataModel
         public string body;
         public string subject;
         public string replyTo;
+        public List<L2PUploadRequest> attachments;
         //public bool replyTo;
     }
 
