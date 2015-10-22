@@ -31,8 +31,11 @@ namespace L2PAPIClient.api
             client.DefaultRequestHeaders.Accept.TryParseAdd("application/json");
 
             StringContent content = new StringContent(data);
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, url);
+            request.Content = new StringContent(data, Encoding.UTF8, "application/json");
 
-            HttpResponseMessage response = await client.PostAsync(url, content);
+            //HttpResponseMessage response = await client.PostAsync(url, content);
+            HttpResponseMessage response = await client.SendAsync(request);
             string result = await response.Content.ReadAsStringAsync();
             return result;
 
