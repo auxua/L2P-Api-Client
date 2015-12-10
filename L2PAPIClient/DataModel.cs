@@ -171,6 +171,8 @@ namespace L2PAPIClient.DataModel
         public bool isDirectory;
         public string selfUrl;
         public object fileInformation;
+        public long created;
+        public long lastModified;
     }
 
     public class L2PMediaLibraryList : L2PBaseData
@@ -187,6 +189,8 @@ namespace L2PAPIClient.DataModel
         public bool isDirectory;
         public string selfUrl;
         public object fileInformation;
+        public long created;
+        public long lastModified;
     }
 
     public class L2PLearningMaterialList : L2PBaseData
@@ -200,6 +204,8 @@ namespace L2PAPIClient.DataModel
         public string url;
         public string notes;
         public string description;
+        public long created;
+        public long lastModified;
     }
 
     public class L2PHyperlinkList : L2PBaseData
@@ -221,6 +227,7 @@ namespace L2PAPIClient.DataModel
         public string from;
         public int itemId;
         public long modifiedTimestamp;
+        public long created;
         public List<L2PAttachmentElement> attachments;
         public string recipients;
         public string cc;
@@ -239,6 +246,7 @@ namespace L2PAPIClient.DataModel
         public string from;
         public bool byMe;
         public long modifiedTimestamp;
+        public long created;
         public int selfId;
         public int replyToId;
         public int parentDiscussionId;
@@ -258,7 +266,7 @@ namespace L2PAPIClient.DataModel
         public string courseID;
         public int itemID;
         // Yes, it is a typo in the API
-        public bool isRucurringItem;
+        public bool isRecurringItem;
         public string title;
         public string contentType;
         public string location;
@@ -267,6 +275,8 @@ namespace L2PAPIClient.DataModel
         public bool allDay;
         public string description;
         public string category;
+        public long created;
+        public long lastModified;
     }
 
     public class L2PCourseEventList : L2PBaseData
@@ -308,6 +318,7 @@ namespace L2PAPIClient.DataModel
         public string title;
         public string body;
         public long expireTime;
+        public long created;
     }
 
     public class L2PAnnouncementList : L2PBaseData
@@ -320,7 +331,7 @@ namespace L2PAPIClient.DataModel
         public List<L2PLiteratureViewDataType> dataSet;
     }
 
-    public class L2PLiteratureViewDataType : L2PBaseData
+    public class L2PLiteratureElementDataType
     {
         public string state;
         public string availability;
@@ -354,7 +365,49 @@ namespace L2PAPIClient.DataModel
         public string volume;
         public string urlComment;
         public string contentType;
+    }
 
+    public class L2PLiteratureViewDataType : L2PBaseData
+    {
+        List<L2PLiteratureElementDataType> dataset;
+    }
+
+    public class L2PCountViewDataType : L2PBaseData
+    {
+        public int count;
+    }
+
+    public class L2PViewAllCountDataType : L2PBaseData
+    {
+        public int DiscussionItems;
+        public int Hyperlinks;
+        public int Announcements;
+        public int LearningMaterials;
+        public int Wikis;
+        public int SharedDocuments;
+        public int MediaLibraryitems;
+        public int LiteratureItems;
+        public string failed;
+    }
+
+    public class L2PViewActiveFeaturesDataType : L2PBaseData
+    {
+        public List<string> active;
+        public List<string> inactive;
+    }
+
+    public class L2PWhatsNewDataType : L2PBaseData
+    {
+        List<L2PAnnouncementElement> announcements;
+        List<L2PAssignmentElement> assignements;
+        List<L2PDiscussionItemElement> discussionItems;
+        List<L2PEmailElement> emails;
+        List<L2PHyperlinkElement> hyperlinks;
+        List<L2PLiteratureElementDataType> literature;
+        List<L2PLearningMaterialElement> learningMaterials;
+        List<L2PMediaLibraryElement> mediaLibraries;
+        List<L2PLearningMaterialElement> sharedDocuments;
+        List<L2PWikiElement> wikis;
     }
 
 
@@ -375,7 +428,7 @@ namespace L2PAPIClient.DataModel
         public string attachmentFolderPath;
     }
 
-    
+
 
     /// <summary>
     /// The response for Generic Calls
@@ -484,7 +537,7 @@ namespace L2PAPIClient.DataModel
         public string body;
         public string subject;
         public string replyTo;
-        public List<L2PUploadRequest> attachments;
+        public List<L2PUploadRequest> attachmentsToUpload;
         //public bool replyTo;
     }
 

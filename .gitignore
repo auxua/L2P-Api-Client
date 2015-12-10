@@ -198,3 +198,7 @@ FakesAssemblies/
 # Exclude Settings of concrete implementation for security reasons but provide Sample
 Settings.cs
 Config.cs
+
+# Exclude Test project
+L2PAPIClientPortable/
+TestApp/

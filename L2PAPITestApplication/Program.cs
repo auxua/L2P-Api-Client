@@ -40,7 +40,7 @@ namespace L2PAPITestApplication
                     Console.WriteLine("App authenticated!");
                 }
             }
-            
+
             // Now, The application is authenticated - do some work with the API
             /*var answer = L2PAPIClient.api.Calls.L2PViewAllCourseInfoAsync().Result;
 
@@ -49,6 +49,19 @@ namespace L2PAPITestApplication
             req.title = "testtitle";
 
             var answer2 = L2PAPIClient.api.Calls.L2PAddAnnouncement("15ss-00002", req).Result;*/
+
+            Stopwatch watch = new Stopwatch();
+            Console.WriteLine("Press Enter to start Test");
+            Console.ReadLine();
+
+            // Test started
+            watch.Start();
+            var a = L2PAPIClient.api.Calls.L2PviewAllAnnouncements("15ss-50665").Result;
+            var b = L2PAPIClient.api.Calls.L2PviewAllLearningMaterials("15ss-50665").Result;
+            var c = L2PAPIClient.api.Calls.L2PviewAllSharedDocuments("15ss-50665").Result;
+            watch.Stop();
+
+            Console.WriteLine("Test completed with Time: " + (watch.ElapsedMilliseconds/1000.0));
 
             Console.ReadLine();
         }
