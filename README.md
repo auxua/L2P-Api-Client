@@ -25,7 +25,6 @@ Besides the .NET Framework there are further dependencies. These include:
 ## Remarks
 
  - This Client is not using WCF and also has some Compiler Options integrated to make it portable. This should allow you to use this not only for Windows Platforms but further, portable ones. (e.g. Xamarin.Android, Xamarin.iOS, Windows Phone 8, Unix/Mono)
- - This is not an official Client of the CiL or RWTH Aachen University but a small project by a student. So please use the issue tracker of github if you find issues in this code
  - If you find Bugs in the API, please report to CiL
 
 ## License
