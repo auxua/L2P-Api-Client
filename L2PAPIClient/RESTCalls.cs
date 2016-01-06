@@ -24,6 +24,14 @@ namespace L2PAPIClient.api
             return result;
         }
 
+        public static async Task<byte[]> GetAsyncByteArray(string url)
+        {
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Accept.TryParseAdd("application/json");
+            var result = await client.GetByteArrayAsync(url);
+            return result;
+        }
+
 
         public static async Task<string> PostAsync(string url, string data)
         {
@@ -806,14 +814,15 @@ namespace L2PAPIClient.api
 
         #region L2P File Operations
 
-        public async static Task<String> L2PdownloadFile(string cid, string downloadUrl, string filename)
+        public async static Task<Stream> L2PdownloadFile(string cid, string downloadUrl, string filename)
         {
             await AuthenticationManager.CheckAccessTokenAsync();
             string callURL = Config.L2PEndPoint + "/downloadFile/" + filename + "?accessToken=" + Config.getAccessToken() + "&cid=" + cid + "&downloadUrl=" + downloadUrl;
 
             //string postData = JsonConvert.SerializeObject(data);
-            var answer = await RestCallAsync<String>(null, callURL, false);
-            return answer;
+            var answer = await GetAsyncByteArray(callURL);
+            MemoryStream ms = new MemoryStream(answer);
+            return ms;
         }
 
         public async static Task<L2PBaseActionResponse> L2PuploadInAnnouncements(string cid, string attachmentDirectory, L2PUploadRequest data)

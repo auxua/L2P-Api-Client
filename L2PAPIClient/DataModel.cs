@@ -300,9 +300,33 @@ namespace L2PAPIClient.DataModel
         public bool groupSubmissionAllowed;
         public List<L2PAttachmentElement> assignmentDocuments;
         public object correction;
-        public object solution;
+        public L2PAssignmentSolution solution;
         public List<L2PAttachmentElement> SampleSolutionDocuments;
     }
+
+    public class L2PAssignmentCorrection
+    {
+        public List<L2PAttachmentElement> correctionDocuments;
+        public long creationTimestamp;
+        public long modifiedTimestamp;
+        public int itemid;
+        public double obtainedPoint;
+        public string tutorComment;
+    }
+
+    public class L2PAssignmentSolution
+    {
+        public bool Status;
+        public long creationTimestamp;
+        public int itemId;
+        public long modifiedTimestamp;
+        public string solutionDirectory;
+        public List<L2PAttachmentElement> solutionDocuments;
+        public string studentComment;
+        public List<string> submittedByStudents;
+    }
+
+
 
     public class L2PAssignmentList : L2PBaseData
     {
