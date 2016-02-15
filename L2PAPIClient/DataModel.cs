@@ -191,6 +191,7 @@ namespace L2PAPIClient.DataModel
         public object fileInformation;
         public long created;
         public long lastModified;
+        public List<long> relatedLectureDates;
     }
 
     public class L2PLearningMaterialList : L2PBaseData
@@ -434,6 +435,24 @@ namespace L2PAPIClient.DataModel
         List<L2PWikiElement> wikis;
     }
 
+    public class L2PLearningObjectElement
+    {
+        public string title;
+        public int itemId;
+        public string description;
+        public long created;
+        public long lastModified;
+        public List<L2PLiteratureElementDataType> relatedLiterature;
+        public List<L2PLearningMaterialElement> relatedLearningMaterials;
+        public List<L2PMediaLibraryElement> relatedMediaElements;
+        public List<L2PHyperlinkElement> relatedHyperlinks;
+        public List<long> relatedLectureDates;
+    }
+
+    public class L2PLearningObjectViewDataType : L2PBaseData
+    {
+        public List<L2PLearningObjectElement> dataset;
+    }
 
     #endregion
 
@@ -495,6 +514,8 @@ namespace L2PAPIClient.DataModel
     {
         public bool Status;
     }
+
+    
 
     #endregion
 
@@ -616,6 +637,16 @@ namespace L2PAPIClient.DataModel
     {
         public string groupName;
         public string uid;
+    }
+
+    public class L2PLearningObjectAddDataType : L2PBaseRequestData
+    {
+        public string title;
+        public string description;
+        public List<int> literature;
+        public List<int> materials;
+        public List<int> hyperlinks;
+        public int relatedMedia;
     }
 
     #endregion

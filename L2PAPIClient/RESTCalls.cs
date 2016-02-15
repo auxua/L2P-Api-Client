@@ -516,6 +516,25 @@ namespace L2PAPIClient.api
             return answer;
         }
 
+        public async static Task<L2PLearningObjectViewDataType> L2PviewLearningObject(string cid, int itemid)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/viewLearningObject?accessToken=" + Config.getAccessToken() + "&cid=" + cid
+                + "&itemid=" + itemid;
+
+            var answer = await RestCallAsync<L2PLearningObjectViewDataType>("", callURL, false);
+            return answer;
+        }
+
+        public async static Task<L2PLearningObjectViewDataType> L2PviewAllLearningObjects(string cid)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/viewAllLearningObject?accessToken=" + Config.getAccessToken() + "&cid=" + cid;
+
+            var answer = await RestCallAsync<L2PLearningObjectViewDataType>("", callURL, false);
+            return answer;
+        }
+
         #endregion
 
         #region L2P Add Calls
@@ -621,6 +640,16 @@ namespace L2PAPIClient.api
             return answer;
         }
 
+        public async static Task<L2PAddUpdateResponse> L2PAddLearningObject(string cid, L2PLearningObjectAddDataType data)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/addLearningObject?accessToken=" + Config.getAccessToken() + "&cid=" + cid;
+
+            //string postData = JsonConvert.SerializeObject(data);
+            var answer = await RestCallAsync<L2PAddUpdateResponse>(data.ToString(), callURL, false);
+            return answer;
+        }
+
         #endregion
 
         #region L2P Update Calls
@@ -689,6 +718,16 @@ namespace L2PAPIClient.api
         {
             await AuthenticationManager.CheckAccessTokenAsync();
             string callURL = Config.L2PEndPoint + "/updateWiki?accessToken=" + Config.getAccessToken() + "&cid=" + cid + "&itemid=" + itemid;
+
+            //string postData = JsonConvert.SerializeObject(data);
+            var answer = await RestCallAsync<L2PAddUpdateResponse>(data.ToString(), callURL, true);
+            return answer;
+        }
+
+        public async static Task<L2PAddUpdateResponse> L2PupdateLearningObject(string cid, int itemid, L2PLearningObjectAddDataType data)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/updateLearningObject?accessToken=" + Config.getAccessToken() + "&cid=" + cid + "&itemid=" + itemid;
 
             //string postData = JsonConvert.SerializeObject(data);
             var answer = await RestCallAsync<L2PAddUpdateResponse>(data.ToString(), callURL, true);
@@ -804,6 +843,16 @@ namespace L2PAPIClient.api
         {
             await AuthenticationManager.CheckAccessTokenAsync();
             string callURL = Config.L2PEndPoint + "/deleteWiki?accessToken=" + Config.getAccessToken() + "&cid=" + cid + "&itemid=" + itemid;
+
+            //string postData = JsonConvert.SerializeObject(data);
+            var answer = await RestCallAsync<L2PBaseActionResponse>(null, callURL, false);
+            return answer;
+        }
+
+        public async static Task<L2PBaseActionResponse> L2PDeleteLearningObject(string cid, int itemid)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/deleteLearningObject?accessToken=" + Config.getAccessToken() + "&cid=" + cid + "&itemid=" + itemid;
 
             //string postData = JsonConvert.SerializeObject(data);
             var answer = await RestCallAsync<L2PBaseActionResponse>(null, callURL, false);
