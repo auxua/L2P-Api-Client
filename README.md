@@ -22,10 +22,22 @@ Besides the .NET Framework there are further dependencies. These include:
  - Newtonsoft.JSON package - this is licensed under MIT license (see *RESTCalls.cs* where it is used) - If you do not want to use this for JSON-(De)Serialization, you might replace it.
  - System.net.http - this is an assembly of Microsoft, that is not part of the inner .NET Core but is available via NuGet. This package is used for the Http WebRequests for the REST-Calls
  
+All of these dependencies are available as PCL enabling support for portability.
+ 
 ## Remarks
 
- - This Client is not using WCF and also has some Compiler Options integrated to make it portable. This should allow you to use this not only for Windows Platforms but further, portable ones. (e.g. Xamarin.Android, Xamarin.iOS, Windows Phone 8, Unix/Mono)
+ - This Client is not using WCF and also has some Compiler Options integrated to make it portable. This should allow you to use this not only for Windows Platforms but further, portable ones. (e.g. Xamarin.Android, Xamarin.iOS, Windows Phone 8, Unix/Mono, etc.)
  - If you find Bugs in the API, please report to CiL
+ - By using the L2P API you have to commit to the RWTH/CiL/IT Center Guidelines for API usage and Privacy
+
+## Files
+
+A very short explanation about the Files in the API Client:
+
+* DataModel: contains the classes for Data model representation of the API. (No logic in here)
+* AuthenticationManager: implementation of the OAuth Authentication and managing the tokens
+* RESTCalls: The Calls of API and OAuth endpoints
+* Config: The basic configuration of the API Client (base endpoints, tokens, etc.)
 
 ## License
 
