@@ -117,6 +117,7 @@ namespace L2PAPIClient.DataModel
         public int itemId;
         public string url;
         public string authors;
+        public string editor;
         public List<int> versionIds;
         public long lastModified;
         public string title;
