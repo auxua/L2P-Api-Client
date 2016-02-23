@@ -455,6 +455,23 @@ namespace L2PAPIClient.DataModel
         public List<L2PLearningObjectElement> dataset;
     }
 
+    public class L2PExamResultDataType
+    {
+        public string matNr;
+        public string firstname;
+        public string lastname;
+        public string grade;
+        public string freiVermerk;
+        public string pversuch;
+        public string pvermerk;
+        public bool isPublished;
+    }
+
+    public class L2PExamResultViewDataType : L2PBaseData
+    {
+        public List<L2PExamResultDataType>;
+    }
+
     #endregion
 
 

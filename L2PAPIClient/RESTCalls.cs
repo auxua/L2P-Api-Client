@@ -535,6 +535,16 @@ namespace L2PAPIClient.api
             return answer;
         }
 
+
+        public async static Task<L2PExamResultViewDataType> L2PviewExamResults(string cid)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/viewExamResults?accessToken=" + Config.getAccessToken() + "&cid=" + cid;
+
+            var answer = await RestCallAsync<L2PExamResultViewDataType>("", callURL, false);
+            return answer;
+        }
+
         #endregion
 
         #region L2P Add Calls
