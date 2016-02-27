@@ -119,7 +119,16 @@ namespace L2PAPIClient.api
         {
             // Check Auth.
             await AuthenticationManager.CheckAccessTokenAsync();
-            string callURL = Config.L2PEndPoint + "/Ping?accessToken=" + Config.getAccessToken() + "&cid=" + cid;
+            string callURL = Config.L2PEndPoint + "/whatsNew?accessToken=" + Config.getAccessToken() + "&cid=" + cid;
+            var answer = await RestCallAsync<L2PWhatsNewDataType>("", callURL, false);
+            return answer;
+        }
+
+        public async static Task<L2PWhatsNewDataType> L2PwhatsNewSinceAsync(string cid, int pastMinutes)
+        {
+            // Check Auth.
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/whatsNew?accessToken=" + Config.getAccessToken() + "&cid=" + cid + "&pastMinutes=" + pastMinutes;
             var answer = await RestCallAsync<L2PWhatsNewDataType>("", callURL, false);
             return answer;
         }

@@ -469,7 +469,7 @@ namespace L2PAPIClient.DataModel
 
     public class L2PExamResultViewDataType : L2PBaseData
     {
-        public List<L2PExamResultDataType>;
+        public List<L2PExamResultDataType> dataset;
     }
 
     #endregion
