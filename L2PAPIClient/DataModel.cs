@@ -465,6 +465,7 @@ namespace L2PAPIClient.DataModel
         public string pversuch;
         public string pvermerk;
         public bool isPublished;
+        public string studentUser;
     }
 
     public class L2PExamResultViewDataType : L2PBaseData
