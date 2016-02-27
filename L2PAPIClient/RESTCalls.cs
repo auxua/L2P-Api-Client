@@ -20,6 +20,7 @@ namespace L2PAPIClient.api
         {
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Accept.TryParseAdd("application/json");
+            client.DefaultRequestHeaders.IfModifiedSince = DateTimeOffset.Now;
             string result = await client.GetStringAsync(url);
             return result;
         }
@@ -28,6 +29,7 @@ namespace L2PAPIClient.api
         {
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Accept.TryParseAdd("application/json");
+            client.DefaultRequestHeaders.IfModifiedSince = DateTimeOffset.Now;
             var result = await client.GetByteArrayAsync(url);
             return result;
         }
@@ -37,6 +39,7 @@ namespace L2PAPIClient.api
         {
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Accept.TryParseAdd("application/json");
+            client.DefaultRequestHeaders.IfModifiedSince = DateTimeOffset.Now;
 
             StringContent content = new StringContent(data);
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, url);
