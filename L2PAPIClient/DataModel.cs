@@ -395,7 +395,7 @@ namespace L2PAPIClient.DataModel
 
     public class L2PLiteratureViewDataType : L2PBaseData
     {
-        List<L2PLiteratureElementDataType> dataset;
+        public List<L2PLiteratureElementDataType> dataset;
     }
 
     public class L2PCountViewDataType : L2PBaseData
@@ -424,16 +424,16 @@ namespace L2PAPIClient.DataModel
 
     public class L2PWhatsNewDataType : L2PBaseData
     {
-        List<L2PAnnouncementElement> announcements;
-        List<L2PAssignmentElement> assignements;
-        List<L2PDiscussionItemElement> discussionItems;
-        List<L2PEmailElement> emails;
-        List<L2PHyperlinkElement> hyperlinks;
-        List<L2PLiteratureElementDataType> literature;
-        List<L2PLearningMaterialElement> learningMaterials;
-        List<L2PMediaLibraryElement> mediaLibraries;
-        List<L2PLearningMaterialElement> sharedDocuments;
-        List<L2PWikiElement> wikis;
+        public List<L2PAnnouncementElement> announcements;
+        public List<L2PAssignmentElement> assignements;
+        public List<L2PDiscussionItemElement> discussionItems;
+        public List<L2PEmailElement> emails;
+        public List<L2PHyperlinkElement> hyperlinks;
+        public List<L2PLiteratureElementDataType> literature;
+        public List<L2PLearningMaterialElement> learningMaterials;
+        public List<L2PMediaLibraryElement> mediaLibraries;
+        public List<L2PLearningMaterialElement> sharedDocuments;
+        public List<L2PWikiElement> wikis;
     }
 
     public class L2PLearningObjectElement
