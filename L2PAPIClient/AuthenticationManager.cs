@@ -51,7 +51,7 @@ namespace L2PAPIClient
                 // Authentication Process ongoing - do nothing and wait
                 return;
             }
-            
+
             if (Config.getAccessToken() == "")
             {
                 if (Config.getRefreshToken() == "")
@@ -60,7 +60,7 @@ namespace L2PAPIClient
                     setState(AuthenticationState.NONE);
                     return;
                 }
-                else 
+                else
                 {
                     // No Access Token, but refreshToken
                     await GenerateAccessTokenFromRefreshTokenAsync();
@@ -87,6 +87,15 @@ namespace L2PAPIClient
 
         }
 
+        /// <summary>
+        /// An Exception for Indicating problem with the authorization state
+        /// </summary>
+        public class NotAuthorizedException : Exception
+        {
+            public NotAuthorizedException(string text) : base(text) { }
+            public NotAuthorizedException() : base() { }
+
+        }
 
         private static Mutex CheckAccessTokenMutex = new Mutex();
         /// <summary>
@@ -107,8 +116,18 @@ namespace L2PAPIClient
             if (!answer)
             {
                 // Try to refresh the token
-                await GenerateAccessTokenFromRefreshTokenAsync();
+                bool success = await GenerateAccessTokenFromRefreshTokenAsync();
                 //call = "{ \"client_id:\" \"" + Config.ClientID + "\" \"access_token\": \"" + Config.getAccessToken() + "\" }";
+
+                if (!success)
+                {
+                    // refreshToken and AccessToken are not working!
+                    Config.setAccessToken("");
+                    Config.setRefreshToken("");
+                    setState(AuthenticationState.NONE);
+                    // Inform caller!
+                    throw new NotAuthorizedException("App not authorized");
+                }
 
                 answer = await api.Calls.CheckValidTokenAsync();
                 if (!answer)
@@ -169,7 +188,7 @@ namespace L2PAPIClient
         {
             //CheckAuthMutex.WaitOne();
             var answer = await TokenCallAsync();
-            if (answer == null || answer.status==null || answer.status.StartsWith("Fail:") || answer.status.StartsWith("error:"))
+            if (answer == null || answer.status == null || answer.status.StartsWith("Fail:") || answer.status.StartsWith("error:"))
             {
                 // Not working!
                 return false;
@@ -260,7 +279,7 @@ namespace L2PAPIClient
             //RefreshhMutex.WaitOne();
             string callBody = "{ \"client_id\": \"" + Config.ClientID + "\", \"refresh_token\": \"" + Config.getRefreshToken() + "\", \"grant_type\":\"refresh_token\" }";
             var answer = await api.Calls.RestCallAsync<OAuthTokenRequestData>(callBody, Config.OAuthTokenEndPoint, true);
-            if ((answer.error == null) && (!answer.status.StartsWith("error")) && (answer.expires_in>0))
+            if ((answer.error == null) && (!answer.status.StartsWith("error")) && (answer.expires_in > 0))
             {
                 //Console.WriteLine("Got a new Token!");
                 Config.setAccessToken(answer.access_token);
@@ -278,17 +297,17 @@ namespace L2PAPIClient
 
         private static Thread Refresher = null;
         private static int TokenExpireTime;
-        
+
         private static void TokenRefresherThread()
         {
             //Console.WriteLine("Startet Refresh-Thread");
-            Thread.Sleep(TokenExpireTime*1000);
+            Thread.Sleep(TokenExpireTime * 1000);
             //Console.WriteLine("Refreshing!");
             GenerateAccessTokenFromRefreshTokenAsync();
         }
 
 
-        
+
 
     }
 }
