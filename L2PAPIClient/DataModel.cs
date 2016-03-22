@@ -193,7 +193,7 @@ namespace L2PAPIClient.DataModel
         public long created;
         public long lastModified;
         public List<long> relatedLectureDates;
-        //public string byMe;
+        public string byMe;
     }
 
     public class L2PLearningMaterialList : L2PBaseData
