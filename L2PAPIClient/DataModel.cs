@@ -193,6 +193,7 @@ namespace L2PAPIClient.DataModel
         public long created;
         public long lastModified;
         public List<long> relatedLectureDates;
+        //public string byMe;
     }
 
     public class L2PLearningMaterialList : L2PBaseData
@@ -436,6 +437,16 @@ namespace L2PAPIClient.DataModel
         public List<L2PWikiElement> wikis;
     }
 
+    public class L2PWhatsNewExtendedDataType : L2PWhatsNewDataType
+    {
+        public string cid;
+    }
+
+    public class L2PWhatsAllNewDataType : L2PBaseData
+    {
+        List<L2PWhatsNewExtendedDataType> dataset;
+    }
+
     public class L2PLearningObjectElement
     {
         public string title;
@@ -466,6 +477,8 @@ namespace L2PAPIClient.DataModel
         public string pvermerk;
         public bool isPublished;
         public string studentUser;
+        //public Dictionary<string, string> customFields;
+        public customKVList customFields;
     }
 
     public class L2PExamResultViewDataType : L2PBaseData
@@ -473,8 +486,39 @@ namespace L2PAPIClient.DataModel
         public List<L2PExamResultDataType> dataset;
     }
 
+    public class L2PGradeBookViewDataType
+    {
+        public string student;
+        public customKVList fields;
+    }
+
+    public class L2PGradeBookResultViewDataType : L2PBaseData
+    {
+        public List<L2PGradeBookViewDataType> dataSet;
+    }
+
     #endregion
 
+    public class customKVPair
+    {
+        public string Key;
+        public string Value;
+    }
+
+    public class customKVList
+    {
+        public List<customKVPair> pairs;
+        public customKVList() { pairs = new List<customKVPair>(); }
+        public Dictionary<string,string> ToDictionary()
+        {
+            Dictionary<string, string> dict = new Dictionary<string, string>();
+            foreach (var item in pairs)
+            {
+                dict.Add(item.Key, item.Value);
+            }
+            return dict;
+        }
+    }
 
     #region Responses for Requests (not view-Calls)
 

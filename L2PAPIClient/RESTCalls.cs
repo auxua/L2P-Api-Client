@@ -136,6 +136,15 @@ namespace L2PAPIClient.api
             return answer;
         }
 
+        public async static Task<L2PWhatsAllNewDataType> L2PwhatsAllNewSinceAsync(int pastMinutes)
+        {
+            // Check Auth.
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/whatsAllNewSince?accessToken=" + Config.getAccessToken() + "&pastMinutes=" + pastMinutes;
+            var answer = await RestCallAsync<L2PWhatsAllNewDataType>("", callURL, false);
+            return answer;
+        }
+
         #endregion
 
         #region L2P Count-Calls
@@ -554,6 +563,15 @@ namespace L2PAPIClient.api
             string callURL = Config.L2PEndPoint + "/viewExamResults?accessToken=" + Config.getAccessToken() + "&cid=" + cid;
 
             var answer = await RestCallAsync<L2PExamResultViewDataType>("", callURL, false);
+            return answer;
+        }
+
+        public async static Task<L2PGradeBookResultViewDataType> L2PviewGradeBook(string cid)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/viewGradeBook?accessToken=" + Config.getAccessToken() + "&cid=" + cid;
+
+            var answer = await RestCallAsync<L2PGradeBookResultViewDataType>("", callURL, false);
             return answer;
         }
 
