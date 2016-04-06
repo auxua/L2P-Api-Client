@@ -145,6 +145,15 @@ namespace L2PAPIClient.api
             return answer;
         }
 
+        public async static Task<L2PWhatsAllNewDataType> L2PwhatsAllNewSinceForSemesterAsync(string semester, int pastMinutes)
+        {
+            // Check Auth.
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/whatsAllNewSinceForSemester?accessToken=" + Config.getAccessToken() + "&pastMinutes=" + pastMinutes + "&semester=" + semester;
+            var answer = await RestCallAsync<L2PWhatsAllNewDataType>("", callURL, false);
+            return answer;
+        }
+
         #endregion
 
         #region L2P Count-Calls
