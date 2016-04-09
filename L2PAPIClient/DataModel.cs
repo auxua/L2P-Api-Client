@@ -193,7 +193,7 @@ namespace L2PAPIClient.DataModel
         public long created;
         public long lastModified;
         public List<long> relatedLectureDates;
-        public string byMe;
+        public bool byMe;
     }
 
     public class L2PLearningMaterialList : L2PBaseData
@@ -495,6 +495,17 @@ namespace L2PAPIClient.DataModel
     public class L2PGradeBookResultViewDataType : L2PBaseData
     {
         public List<L2PGradeBookViewDataType> dataSet;
+    }
+
+    public class L2PGradeViewDataType
+    {
+        public string grade;
+        public int count;
+    }
+
+    public class L2PGradeDistributionViewDataType : L2PBaseData
+    {
+        public List<L2PGradeViewDataType> dataset;
     }
 
     #endregion

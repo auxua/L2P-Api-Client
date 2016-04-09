@@ -575,6 +575,15 @@ namespace L2PAPIClient.api
             return answer;
         }
 
+        public async static Task<L2PGradeDistributionViewDataType> L2PviewExamResultsStatistics(string cid)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/viewExamResultsStatistics?accessToken=" + Config.getAccessToken() + "&cid=" + cid;
+
+            var answer = await RestCallAsync<L2PGradeDistributionViewDataType>("", callURL, false);
+            return answer;
+        }
+
         public async static Task<L2PGradeBookResultViewDataType> L2PviewGradeBook(string cid)
         {
             await AuthenticationManager.CheckAccessTokenAsync();
