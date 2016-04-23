@@ -6,10 +6,10 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Newtonsoft.Json;
-using L2PAPIClient.DataModel;
+using L2PAPIClientPortable.DataModel;
 
 
-namespace L2PAPIClient
+namespace L2PAPIClientPortable
 {
     public class AuthenticationManager
     {
@@ -27,14 +27,14 @@ namespace L2PAPIClient
         /// </summary>
         private static AuthenticationState State = AuthenticationState.NONE;
 
-        [MethodImpl(MethodImplOptions.Synchronized)]
+        //[MethodImpl(MethodImplOptions.Synchronized)]
         public static AuthenticationState getState()
         {
             // Store the State independent from App Lifecycle for Mobile Apps e.g.            
             return State;
         }
 
-        [MethodImpl(MethodImplOptions.Synchronized)]
+        //[MethodImpl(MethodImplOptions.Synchronized)]
         public static void setState(AuthenticationState authState)
         {
             State = authState;
@@ -174,8 +174,8 @@ namespace L2PAPIClient
                 Config.setDeviceToken(answer.device_code);
                 setState(AuthenticationState.WAITING);
                 expireTimeWaitingProcess = answer.expires_in;
-                Thread t = new Thread(new ThreadStart(ExpireThread));
-                t.Start();
+                //Thread t = new Thread(new ThreadStart(ExpireThread));
+                //t.Start();
                 //StartAuthMutex.ReleaseMutex();
                 return url;
             }
@@ -268,7 +268,7 @@ namespace L2PAPIClient
         private static void ExpireThread()
         {
             // Wait for the expire time
-            Thread.Sleep(expireTimeWaitingProcess * 1000);
+            //Thread.Sleep(expireTimeWaitingProcess * 1000);
             // wake up and check, whether the process has expired
             setState(AuthenticationState.NONE);
         }
@@ -294,8 +294,8 @@ namespace L2PAPIClient
                 Config.setAccessToken(answer.access_token);
                 TokenExpireTime = answer.expires_in;
                 //TokenExpireTime = 10;
-                Refresher = new Thread(new ThreadStart(TokenRefresherThread));
-                Refresher.Start();
+                //Refresher = new Thread(new ThreadStart(TokenRefresherThread));
+                //Refresher.Start();
                 //RefreshhMutex.ReleaseMutex();
                 return true;
             }
@@ -304,13 +304,13 @@ namespace L2PAPIClient
             return false;
         }
 
-        private static Thread Refresher = null;
+        //private static Thread Refresher = null;
         private static int TokenExpireTime;
 
         private static void TokenRefresherThread()
         {
             //Console.WriteLine("Startet Refresh-Thread");
-            Thread.Sleep(TokenExpireTime * 1000);
+            //Thread.Sleep(TokenExpireTime * 1000);
             //Console.WriteLine("Refreshing!");
             GenerateAccessTokenFromRefreshTokenAsync();
         }

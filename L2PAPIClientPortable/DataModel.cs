@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace L2PAPIClient.DataModel
+namespace L2PAPIClientPortable.DataModel
 {
     #region OAuth-DataTypes
 

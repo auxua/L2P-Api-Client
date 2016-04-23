@@ -7,10 +7,10 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.IO;
 using Newtonsoft.Json;
-using L2PAPIClient.DataModel;
+using L2PAPIClientPortable.DataModel;
 using System.Threading;
 
-namespace L2PAPIClient.api
+namespace L2PAPIClientPortable.api
 {
     public class Calls
     {
@@ -251,7 +251,15 @@ namespace L2PAPIClient.api
         public async static Task<bool> CheckValidTokenAsync()
         {
             string callURL = Config.L2PEndPoint + "/Ping?accessToken=" + Config.getAccessToken() + "&p=ping";
-            var answer = await RestCallAsync<L2PPingData>("", callURL, false);
+            L2PPingData answer;
+            try
+            {
+                answer = await RestCallAsync<L2PPingData>("", callURL, false);
+            }
+            catch (System.Net.Http.HttpRequestException) // On some OS, an Exception is thrown
+            {
+                return false;
+            }
             if ((answer == null) || (answer.status == false))
                 return false;
             return true;

@@ -200,5 +200,5 @@ Settings.cs
 Config.cs
 
 # Exclude Test project
-L2PAPIClientPortable/
 TestApp/
+TestApp1/
