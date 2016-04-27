@@ -444,7 +444,7 @@ namespace L2PAPIClientPortable.DataModel
 
     public class L2PWhatsAllNewDataType : L2PBaseData
     {
-        List<L2PWhatsNewExtendedDataType> dataset;
+        public List<L2PWhatsNewExtendedDataType> dataset;
     }
 
     public class L2PLearningObjectElement
