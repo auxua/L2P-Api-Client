@@ -453,6 +453,15 @@ namespace L2PAPIClientPortable.api
             return answer;
         }
 
+        public async static Task<L2PLearningMaterialList> L2PviewAllTutorDomainDocuments(string cid)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/viewAllTutorDomainDocuments?accessToken=" + Config.getAccessToken() + "&cid=" + cid;
+
+            var answer = await RestCallAsync<L2PLearningMaterialList>("", callURL, false);
+            return answer;
+        }
+
         public async static Task<L2PWikiList> L2PviewAllWikis(string cid)
         {
             await AuthenticationManager.CheckAccessTokenAsync();
@@ -1005,6 +1014,16 @@ namespace L2PAPIClientPortable.api
         {
             await AuthenticationManager.CheckAccessTokenAsync();
             string callURL = Config.L2PEndPoint + "/uploadInSharedDocuments?accessToken=" + Config.getAccessToken() + "&cid=" + cid + "&sourceDirectory=" + sourceDirectory;
+
+            //string postData = JsonConvert.SerializeObject(data);
+            var answer = await RestCallAsync<L2PBaseActionResponse>(data.ToString(), callURL, true);
+            return answer;
+        }
+
+        public async static Task<L2PBaseActionResponse> L2PuploadInTutorDomain(string cid, string sourceDirectory, L2PUploadRequest data)
+        {
+            await AuthenticationManager.CheckAccessTokenAsync();
+            string callURL = Config.L2PEndPoint + "/uploadInTutorDomain?accessToken=" + Config.getAccessToken() + "&cid=" + cid + "&sourceDirectory=" + sourceDirectory;
 
             //string postData = JsonConvert.SerializeObject(data);
             var answer = await RestCallAsync<L2PBaseActionResponse>(data.ToString(), callURL, true);
